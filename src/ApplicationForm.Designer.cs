@@ -28,6 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ApplicationForm));
             this.splitContainerMain = new System.Windows.Forms.SplitContainer();
             this.groupBoxTimer = new System.Windows.Forms.GroupBox();
             this.buttonStart = new System.Windows.Forms.Button();
@@ -45,12 +47,21 @@
             this.checkBoxShowDebugEvents = new System.Windows.Forms.CheckBox();
             this.labelEventLog = new System.Windows.Forms.Label();
             this.textBoxEventLog = new System.Windows.Forms.TextBox();
+            this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
+            this.notifyIconContextMenu = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.startTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.stopTimerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitTimeTrackerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainerMain)).BeginInit();
             this.splitContainerMain.Panel1.SuspendLayout();
             this.splitContainerMain.Panel2.SuspendLayout();
             this.splitContainerMain.SuspendLayout();
             this.groupBoxTimer.SuspendLayout();
             this.groupBoxOptions.SuspendLayout();
+            this.notifyIconContextMenu.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainerMain
@@ -261,17 +272,79 @@
             this.textBoxEventLog.TabIndex = 1;
             this.textBoxEventLog.WordWrap = false;
             // 
+            // notifyIcon
+            // 
+            this.notifyIcon.ContextMenuStrip = this.notifyIconContextMenu;
+            this.notifyIcon.Icon = ((System.Drawing.Icon)(resources.GetObject("notifyIcon.Icon")));
+            this.notifyIcon.Text = "Time Tracker";
+            this.notifyIcon.Visible = true;
+            this.notifyIcon.DoubleClick += new System.EventHandler(this.notifyIcon_DoubleClick);
+            // 
+            // notifyIconContextMenu
+            // 
+            this.notifyIconContextMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.startTimerToolStripMenuItem,
+            this.stopTimerToolStripMenuItem,
+            this.toolStripSeparator1,
+            this.optionsToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.exitTimeTrackerToolStripMenuItem});
+            this.notifyIconContextMenu.Name = "notifyIconContextMenu";
+            this.notifyIconContextMenu.Size = new System.Drawing.Size(160, 104);
+            this.notifyIconContextMenu.Opening += new System.ComponentModel.CancelEventHandler(this.notifyIconContextMenu_Opening);
+            // 
+            // startTimerToolStripMenuItem
+            // 
+            this.startTimerToolStripMenuItem.Name = "startTimerToolStripMenuItem";
+            this.startTimerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.startTimerToolStripMenuItem.Text = "&Start Timer";
+            this.startTimerToolStripMenuItem.Click += new System.EventHandler(this.startTimerToolStripMenuItem_Click);
+            // 
+            // stopTimerToolStripMenuItem
+            // 
+            this.stopTimerToolStripMenuItem.Name = "stopTimerToolStripMenuItem";
+            this.stopTimerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.stopTimerToolStripMenuItem.Text = "&Stop Timer";
+            this.stopTimerToolStripMenuItem.Click += new System.EventHandler(this.stopTimerToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(156, 6);
+            // 
+            // optionsToolStripMenuItem
+            // 
+            this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
+            this.optionsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.optionsToolStripMenuItem.Text = "&Options...";
+            this.optionsToolStripMenuItem.Click += new System.EventHandler(this.optionsToolStripMenuItem_Click);
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(156, 6);
+            // 
+            // exitTimeTrackerToolStripMenuItem
+            // 
+            this.exitTimeTrackerToolStripMenuItem.Name = "exitTimeTrackerToolStripMenuItem";
+            this.exitTimeTrackerToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.exitTimeTrackerToolStripMenuItem.Text = "E&xit TimeTracker";
+            this.exitTimeTrackerToolStripMenuItem.Click += new System.EventHandler(this.exitTimeTrackerToolStripMenuItem_Click);
+            // 
             // ApplicationForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(684, 244);
             this.Controls.Add(this.splitContainerMain);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.MaximizeBox = false;
             this.MinimumSize = new System.Drawing.Size(370, 283);
             this.Name = "ApplicationForm";
             this.Text = "TimeTracker";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.ApplicationForm_FormClosed);
             this.Load += new System.EventHandler(this.ApplicationForm_Load);
+            this.Resize += new System.EventHandler(this.ApplicationForm_Resize);
             this.splitContainerMain.Panel1.ResumeLayout(false);
             this.splitContainerMain.Panel1.PerformLayout();
             this.splitContainerMain.Panel2.ResumeLayout(false);
@@ -281,6 +354,7 @@
             this.groupBoxTimer.ResumeLayout(false);
             this.groupBoxOptions.ResumeLayout(false);
             this.groupBoxOptions.PerformLayout();
+            this.notifyIconContextMenu.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -304,6 +378,14 @@
         private System.Windows.Forms.CheckBox checkBoxTrackSleepActivity;
         private System.Windows.Forms.Button buttonReset;
         private System.Windows.Forms.LinkLabel linkLabelClearLog;
+        private System.Windows.Forms.NotifyIcon notifyIcon;
+        private System.Windows.Forms.ContextMenuStrip notifyIconContextMenu;
+        private System.Windows.Forms.ToolStripMenuItem startTimerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem stopTimerToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem exitTimeTrackerToolStripMenuItem;
     }
 }
 

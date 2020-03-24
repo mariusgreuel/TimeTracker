@@ -54,6 +54,14 @@ namespace TimeTracker
             ShutdownTracking();
         }
 
+        private void ApplicationForm_Resize(object sender, EventArgs e)
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                Hide();
+            }
+        }
+
         private void buttonStart_Click(object sender, EventArgs e)
         {
             timeRecorder.Start();
@@ -114,6 +122,53 @@ namespace TimeTracker
         {
             timeRecorder.ClearEvents();
             textBoxEventLog.Text = string.Empty;
+        }
+
+        private void notifyIcon_DoubleClick(object sender, EventArgs e)
+        {
+            ShowOptions();
+        }
+
+        private void notifyIconContextMenu_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            startTimerToolStripMenuItem.Enabled = !timeRecorder.State.Timer.Started;
+            stopTimerToolStripMenuItem.Enabled = timeRecorder.State.Timer.Started;
+        }
+
+        private void startTimerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timeRecorder.Start();
+            UpdateControls();
+            buttonStop.Focus();
+        }
+
+        private void stopTimerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            timeRecorder.Stop();
+            UpdateControls();
+            buttonStart.Focus();
+        }
+
+        private void optionsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowOptions();
+        }
+
+        private void exitTimeTrackerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Close();
+        }
+
+        void ShowOptions()
+        {
+            Show();
+
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+            }
+
+            Activate();
         }
 
         void InitializeTracking()
@@ -282,6 +337,7 @@ namespace TimeTracker
             }
 
             labelStatus.Text = $"{workTime} - {state}";
+            notifyIcon.Text = $"{Application.ProductName} - {workTime} - {state}";
         }
 
         void UpdateEventLog()
