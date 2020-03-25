@@ -245,12 +245,14 @@ namespace TimeTracker
 
         void LoadSettings()
         {
-            if (Settings.Default.WindowLocation != Point.Empty)
+            if (Settings.Default.WindowLocation.X >= 0 &&
+                Settings.Default.WindowLocation.Y >= 0)
             {
                 Location = Settings.Default.WindowLocation;
             }
 
-            if (Settings.Default.WindowSize != Size.Empty)
+            if (Settings.Default.WindowSize.Width > 0 &&
+                Settings.Default.WindowSize.Height > 0)
             {
                 Size = Settings.Default.WindowSize;
             }
@@ -269,8 +271,8 @@ namespace TimeTracker
 
         void SaveSettings()
         {
-            Settings.Default.WindowLocation = Location;
-            Settings.Default.WindowSize = Size;
+            Settings.Default.WindowLocation = WindowState != FormWindowState.Minimized ? Location : RestoreBounds.Location;
+            Settings.Default.WindowSize = WindowState != FormWindowState.Minimized ? Size : RestoreBounds.Size;
             Settings.Default.TrackSleepActivity = timeRecorder.TrackSleepActivity;
             Settings.Default.TrackInputActivity = timeRecorder.TrackInputActivity;
             Settings.Default.IdleTimeout = timeRecorder.IdleTimeout;
